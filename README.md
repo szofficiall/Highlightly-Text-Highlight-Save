@@ -1,112 +1,153 @@
-# ✏️ Research Buddy - Web Highlighter & Note Exporter
+# Research Buddy - Web Highlighter & Note Exporter
 
-> A lightweight Google Chrome Extension (Manifest V3) designed for researchers, students, and developers to highlight text across web pages, persist notes locally, and export them into Markdown or TXT format.
+A lightweight Google Chrome Extension built with Manifest V3 that allows users to highlight important text on web pages, save highlights locally, and export collected notes as Markdown or TXT files.
 
-Built for **Lab 2 Mini-Hackathon: Web Extension Development**.
+Research Buddy is designed for students, researchers, developers, and anyone who frequently collects useful information while browsing the web.
 
----
+Built for the Web Design & Development Lab Mini-Hackathon.
 
-## 🌟 Key Features
+## Features
 
-- **Instant Visual Highlighting**: Select any text on any webpage with your mouse to instantly apply a clean, yellow visual highlight.
-- **Permanent Persistence**: Highlights are saved locally using `chrome.storage.local` and automatically re-appear when refreshing or revisiting the page.
-- **Tab-Specific Popup Interface**: The extension popup displays only the highlights belonging to your active browser tab, along with a total count and timestamps.
-- **1-Click Note Export**:
-  - **Export as .TXT**: Clean text summary with title, source URL, and timestamped quotes.
-  - **Export as .MD**: Formatted Markdown document with blockquotes and clickable links ready for Obsidian, Notion, or GitHub.
-- **Manage Snippets**: Delete individual quotes with a single click or clear all highlights on the active page.
-- **No Heavy Frameworks**: Built using 100% pure Vanilla JavaScript, HTML5, and CSS3.
+* Highlight selected text directly on any webpage.
+* Save highlights locally using Chrome Storage.
+* Automatically restore saved highlights when revisiting a page.
+* View highlights for the currently active browser tab.
+* Display saved snippets with timestamps.
+* Delete individual highlights.
+* Clear all highlights from the current page.
+* Export saved highlights as TXT files.
+* Export saved highlights as Markdown files.
+* Include page title, source URL, timestamps, and saved snippets in exported notes.
+* Works without external frameworks or heavy dependencies.
 
----
+## How It Works
 
-## 🏗️ Technical Architecture (Manifest V3)
+Research Buddy uses Chrome Extension APIs to capture selected text from webpages and store it locally.
 
-| Component | File | Role & Browser APIs Used |
-| :--- | :--- | :--- |
-| **Manifest** | `manifest.json` | Manifest V3 configuration, permissions (`activeTab`, `storage`, `scripting`), service worker, and content scripts. |
-| **Service Worker** | `background.js` | Extension lifecycle management (`chrome.runtime.onInstalled`), storage initialization, and message routing. |
-| **Content Script** | `content.js` | DOM manipulation, `mouseup` selection listener, text wrapping (`<span class="rb-highlight-span">`), and highlight restoration on page load. |
-| **Injected Styles** | `styles.css` | Styling for highlighted elements on web pages. |
-| **Popup UI** | `popup.html` | Clean, responsive popup user interface without external libraries. |
-| **Popup Script** | `popup.js` | Message Passing (`chrome.runtime.sendMessage`), active tab query, snippet rendering, and Blob file generation. |
-| **Test Page** | `test_page.html` | Self-contained sample article to test extension features locally. |
+When a user selects text, the extension creates a visual highlight and saves the selected content along with information about the webpage. When the page is opened again, previously saved highlights can be restored.
 
----
+The popup provides access to the highlights collected from the active browser tab and allows users to manage or export their notes.
 
-## 🚀 Installation & Setup
+## Technical Architecture
 
-1. **Clone or Download** this repository to your local machine:
-   ```bash
-   git clone https://github.com/ZainAliT/research-buddy.git
-   ```
-2. Open **Google Chrome** and navigate to:
-   ```
-   chrome://extensions/
-   ```
-3. Enable **Developer mode** in the top-right corner.
-4. Click the **Load unpacked** button in the top-left corner.
-5. Select the project directory:
-   ```
-   Research_Buddy_Chrome_Extension_V3
-   ```
-6. The extension is now installed and ready to use!
+| Component      | File             | Description                                                                            |
+| -------------- | ---------------- | -------------------------------------------------------------------------------------- |
+| Manifest       | `manifest.json`  | Manifest V3 configuration, permissions, content scripts, and service worker settings.  |
+| Service Worker | `background.js`  | Handles extension lifecycle events, storage initialization, and message communication. |
+| Content Script | `content.js`     | Detects selected text, applies highlights, and restores saved highlights.              |
+| Styles         | `styles.css`     | Provides styling for highlighted content injected into webpages.                       |
+| Popup UI       | `popup.html`     | Provides the extension's popup interface.                                              |
+| Popup Script   | `popup.js`       | Handles active-tab communication, snippet rendering, deletion, and note exporting.     |
+| Test Page      | `test_page.html` | Provides a local webpage for testing the extension.                                    |
 
-> **Note for Local File Testing:** If testing on local files (e.g. `test_page.html`), click **Details** on the Research Buddy card in `chrome://extensions/` and toggle **"Allow access to file URLs"** to ON.
+## Technologies Used
 
----
+* HTML5
+* CSS3
+* Vanilla JavaScript
+* Chrome Extension APIs
+* Chrome Storage API
+* Manifest V3
 
-## 📖 How to Use
+## Installation
 
-1. **Browse & Highlight**: Navigate to any webpage (e.g., Wikipedia, documentation, news). Select any text using your mouse cursor. The text will automatically be highlighted yellow and saved.
-2. **View Saved Notes**: Click the **Research Buddy** icon in your Chrome toolbar to view all notes collected from the current page.
-3. **Export Notes**: In the popup, click:
-   - **📄 Export .TXT** to download a formatted `.txt` report.
-   - **📑 Export .MD** to download a clean `.md` document.
-4. **Delete Highlights**: Click the `×` button next to any snippet to remove it, or click **Clear All** to remove all highlights from the current page.
+### 1. Clone the Repository
 
----
+```bash
+git clone https://github.com/ZainAliT/research-buddy.git
+```
 
-## 📁 File Structure
+### 2. Open Chrome Extensions
+
+Open the following page in Google Chrome:
+
+```text
+chrome://extensions/
+```
+
+### 3. Enable Developer Mode
+
+Enable the Developer mode option from the top-right corner.
+
+### 4. Load the Extension
+
+Click **Load unpacked** and select the project directory:
+
+```text
+Research_Buddy_Chrome_Extension_V3
+```
+
+The extension will now be available in Chrome.
+
+### Local File Testing
+
+If you want to test the extension with a local HTML file such as `test_page.html`, open the extension details in `chrome://extensions/` and enable:
+
+**Allow access to file URLs**
+
+## How to Use
+
+### Highlight Text
+
+Open any webpage and select the text you want to save. Research Buddy will highlight the selected text and store it locally.
+
+### View Saved Highlights
+
+Click the Research Buddy extension from the Chrome toolbar to open the popup and view the highlights associated with the current webpage.
+
+### Export Notes
+
+The popup provides options to export saved highlights in two formats:
+
+* TXT for a simple text-based document.
+* Markdown for structured notes that can be used with applications such as Notion, Obsidian, or GitHub.
+
+### Manage Highlights
+
+Individual snippets can be deleted from the popup. You can also clear all saved highlights associated with the current webpage.
+
+## Project Structure
 
 ```text
 Research_Buddy_Chrome_Extension_V3/
-├── manifest.json       # Manifest V3 configuration & permissions
-├── background.js       # Background Service Worker
-├── content.js          # Injected content script for DOM manipulation
-├── styles.css          # Injected highlighter CSS
-├── popup.html          # Extension popup UI
-├── popup.js            # Popup logic & Blob note exporter
-├── test_page.html      # Demo article for testing
-├── icons/              # Extension icons (16px, 48px, 128px)
-└── README.md           # Project documentation
+├── manifest.json
+├── background.js
+├── content.js
+├── styles.css
+├── popup.html
+├── popup.js
+├── test_page.html
+├── icons/
+└── README.md
 ```
 
----
+## Exported Notes
 
-## 📄 Export Sample Formats
+The Markdown export contains information such as:
 
-### Markdown (`.md`)
-```markdown
-# 📝 Research Buddy Notes
+* Page title
+* Source URL
+* Export date
+* Total number of highlights
+* Saved snippets
+* Individual snippet timestamps
 
-- **Page Title:** Sample Research Paper
-- **Source URL:** [https://example.com](https://example.com)
-- **Export Date:** 9/11/2026, 9:30:00 PM
-- **Total Highlights:** 1
+This makes the exported notes useful for research documentation, study material, technical references, and personal knowledge management.
 
----
+## Privacy
 
-## 📖 Saved Snippets
+Research Buddy is designed to keep saved highlights locally within the browser using Chrome's local storage capabilities. The extension does not require an external backend or database to store highlighted notes.
 
-### Snippet 1
+## Purpose
 
-> "Modern extensions emphasize performance, enhanced privacy, and strict separation."
+The project demonstrates practical Chrome Extension development using Manifest V3, browser APIs, DOM manipulation, local storage, message passing, and client-side file generation.
 
-*Saved at: 9/11/2026, 9:28:15 PM*
-```
+## Author
 
----
+**Sultan Zaib**
 
-## 👥 Authors
-- Developed for **Web Design & Development Lab (Mini-Hackathon)**
-- Google Chrome Extension Manifest V3
+Web Design & Development Lab Mini-Hackathon
+
+## License
+
+This project is developed for educational and learning purposes.
